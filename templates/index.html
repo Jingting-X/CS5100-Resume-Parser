@@ -16,33 +16,21 @@
 <body>
     <div class="container">
 
-        <form enctype="multipart/form-data" onsubmit="return false;">
-
-            <div class="row">
-                <h1 id="forms">Resume Parser</h1>
-                <p> We will have more description about this project later</p>
-            </div>
-
-            <div class="row">
-                <div class="col-lg-6">
-                    <form enctype="multipart/form-data" onsubmit="return false;">
-                        <div class="form-group">
-                            <label for="file" class="form-label mt-4">Please upload your Resume</label>
-                            <input class="form-control" id="file" type="file" name="static_file" />
-                        </div>
-                        <button class="btn btn-primary mt-3" id="upload-button" onclick="uploadFile(this.form)"> Upload
-                        </button>
-                    </form>
-                </div>
-                <div class="row">
-                    <div id="static_file_response"></div>
-                    <div id="name"></div>
-                    <script type="text/javascript" src="app.js"></script>
-                    </script>
-                    <table id="resume_parser_table"></table>
-                </div>
-            </div>
-
+    <div class="row">
+        <h1 id="forms">Resume Parser</h1>
+        <p> We will have more description about this project later</p>
+    </div>
+    <div class="row">
+        <div class="col-lg-6">
+    <form action = "/display" method = "POST" enctype = "multipart/form-data">       
+            <label class="form-label mt-4">Please upload your Resume</label>
+            <input type = "file" name = "file" class="form-control"/>
+        </div>
+    </div>
+    <input type = "submit"  class="btn btn-primary mt-3"/>
+    <input type = "reset"  class="btn btn-primary mt-3"/>
+    </form>  
+    </div>
 </body>
 
 </html>
