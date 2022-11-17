@@ -5,7 +5,11 @@
 This app can parse a free-format resume into a structured format with the information needed. 
 It will significantly improve the user's efficiency in processing resumes.
 
+![](https://i.ibb.co/0yDZrT0/picture-1.png)
+![](https://i.ibb.co/rMz4WNV/picture-2.png)
+
 ## Targeted Environment
+
 |                  | Version |                                                                                                         Introduction                                                                                                          |
 |:----------------:|:-------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
 |      Python      | 3.9.13  |                                 Python programming language is being used in web development, Machine Learning applications, along with all cutting edge technology in the Software Industry.                                 |                                                                                                                                                                                             |
@@ -15,9 +19,9 @@ It will significantly improve the user's efficiency in processing resumes.
 
 ## PEAS Environment
 
-|   Agent Type    |                        Performance Measure                        |    Environmenet     |    Actuators    |                   Sensors                    |
-|:---------------:|:-----------------------------------------------------------------:|:-------------------:|:---------------:|:--------------------------------------------:|
-|  Resume Parser  |   Parse resume’s contents into different categories accurately.   | Internet, Computer  | Screen display  | Web pages, Resumes uploaded by users, Mouse  |
+|  Agent Type   |                      Performance Measure                      |    Environment     |   Actuators    |                   Sensors                   |
+|:-------------:|:-------------------------------------------------------------:|:------------------:|:--------------:|:-------------------------------------------:|
+| Resume Parser | Parse resume’s contents into different categories accurately. | Internet, Computer | Screen display | Web pages, Resumes uploaded by users, Mouse |
 
 ## Run In Terminal
 ```
