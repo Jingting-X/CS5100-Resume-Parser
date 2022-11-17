@@ -2,13 +2,14 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About The Project
-This app can parse a free-format resume into a structured format with the information needed. 
+This app can parse a resume into a structured format with the information needed. 
 It will significantly improve the user's efficiency in processing resumes.
 
 ![](https://i.ibb.co/0yDZrT0/picture-1.png)
 ![](https://i.ibb.co/rMz4WNV/picture-2.png)
 
 ## Targeted Environment
+The project mainly uses Python to deal with resume parsing logic and takes Flask framework, HTML language to build the web application.
 
 |                  | Version |                                                                                                         Introduction                                                                                                          |
 |:----------------:|:-------:|:-----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------:|
