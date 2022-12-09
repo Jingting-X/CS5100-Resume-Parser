@@ -28,13 +28,13 @@
         </div>
     </div>
     <input id = "updateButton" type = "submit"  class="btn btn-primary mt-3" onclick="uploadFile()"/>
-    <input type = "reset"  class="btn btn-primary mt-3"/>
+    <input type = "reset" onclick="resetChosen()" class="btn btn-primary mt-3"/>
     </form>  
     </div>
     <script>
 
         function showFileChosen() {
-            mywords = document.getElementById("filechosen")
+            mywords = document.getElementById("filechosen");
             if (document.getElementById("file").files.length == 0) {
                 mywords.innerHTML = "&nbsp;&nbsp;&nbsp;File not chosen";
                 mywords.style = "color: red;"
@@ -44,9 +44,16 @@
             }         
         }
 
+        function resetChosen() {
+            mywords = document.getElementById("filechosen");
+            mywords.innerHTML = "&nbsp;&nbsp;&nbsp;File not chosen";
+            mywords.style = "color: red;"
+        }
+
         function uploadFile() {
             if (document.getElementById("file").files.length == 0) {
                 alert("Please choose a file");
+                return;
             } else {
                 targetForm = document.getElementById("uploadForm");
                 targetForm.action = "/display";
