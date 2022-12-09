@@ -18,19 +18,47 @@
 
     <div class="row">
         <h1 id="forms">Resume Parser</h1>
-        <p> We will have more description about this project later</p>
+        <p>A simple resume parser used for extracting information from resumes</p>
     </div>
     <div class="row">
         <div class="col-lg-6">
-    <form action = "/display" method = "POST" enctype = "multipart/form-data">       
-            <label class="form-label mt-4">Please upload your Resume</label>
-            <input type = "file" name = "file" class="form-control"/>
+    <form id="uploadForm">       
+            <label class="form-label mt-4">Please upload your Resume</label><label id="filechosen" style="color: red;">&nbsp;&nbsp;&nbsp;File not chosen</label>
+            <input type = "file" id ="file" name = "file" class="form-control" onchange="showFileChosen()"/>
         </div>
     </div>
-    <input type = "submit"  class="btn btn-primary mt-3"/>
+    <input id = "updateButton" type = "submit"  class="btn btn-primary mt-3" onclick="uploadFile()"/>
     <input type = "reset"  class="btn btn-primary mt-3"/>
     </form>  
     </div>
+    <script>
+
+        function showFileChosen() {
+            mywords = document.getElementById("filechosen")
+            if (document.getElementById("file").files.length == 0) {
+                mywords.innerHTML = "&nbsp;&nbsp;&nbsp;File not chosen";
+                mywords.style = "color: red;"
+            } else {
+                mywords.innerHTML = "&nbsp;&nbsp;&nbsp;File chosen";
+                mywords.style = "color: green;"
+            }         
+        }
+
+        function uploadFile() {
+            if (document.getElementById("file").files.length == 0) {
+                alert("Please choose a file");
+            } else {
+                targetForm = document.getElementById("uploadForm");
+                targetForm.action = "/display";
+                targetForm.method = "POST";
+                targetForm.enctype = "multipart/form-data";
+            }
+        }
+
+        function successfulUpload() {
+            
+        }
+    </script>
 </body>
 
 </html>
