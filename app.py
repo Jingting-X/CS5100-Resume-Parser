@@ -1,122 +1,56 @@
 from flask import Flask, render_template, request
 from werkzeug.utils import secure_filename
 import spacy
-import pickle
 import random
-import sys, fitz
 from tabulate import tabulate
 from prettytable import PrettyTable
-import docx2txt
 import pathlib
+from train_model import*
+from read_file import*
 
 app = Flask(__name__)
 
 app.config["UPLOAD_FOLDER"] = "static/"
 
-train_data = pickle.load(open('training_files/train_data.pkl', 'rb'))
-
-nlp = spacy.blank('en')
-
-def train_model(train_data):
-    if 'ner' not in nlp.pipe_names:
-        ner = nlp.create_pipe('ner')
-        nlp.add_pipe(ner, last = True)
-    
-    for _, annotation in train_data:
-        for ent in annotation['entities']:
-            ner.add_label(ent[2])
-            
-    
-    other_pipes = [pipe for pipe in nlp.pipe_names if pipe != 'ner']
-    with nlp.disable_pipes(*other_pipes):  # only train NER
-        optimizer = nlp.begin_training()
-        for itn in range(2):
-            print("Starting iteration " + str(itn))
-            random.shuffle(train_data)
-            losses = {}
-            index = 0
-            for text, annotations in train_data:
-                try:
-                    nlp.update(
-                        [text],  # batch of texts
-                        [annotations],  # batch of annotations
-                        drop=0.2,  # dropout - make it harder to memorise data
-                        sgd=optimizer,  # callable to update weights
-                        losses=losses)
-                except Exception as e:
-                    pass
-                
-            print(losses)
-
-
-
-train_model(train_data)
+train_model()
 
 nlp.to_disk('training_files/nlp_model')
-
 nlp_model = spacy.load('training_files/nlp_model')
 
-print("train OK----------")
+print("---------Model Training Done---------")
+
+# Get test result
+# print("---------Model Testing Report---------")
+# test_model_report()
 
 
 @app.route('/')
 def upload_file():
     return render_template('index.html')
 
-
 @app.route('/display', methods = ['GET', 'POST'])
-def save_file():
+def parse_resume():
     if request.method == 'POST':
         f = request.files['file']
-        filename = secure_filename(f.filename)
+        file_name = secure_filename(f.filename)
+        file_path = app.config['UPLOAD_FOLDER'] + file_name
+        f.save(file_path)
+        file_extension = pathlib.Path(file_path).suffix
 
-        f.save(app.config['UPLOAD_FOLDER'] + filename)
-
-        file_extension = pathlib.Path(app.config['UPLOAD_FOLDER'] + filename).suffix
-
-        tx = ''
+        file_content = ''
         if file_extension == ".pdf":
-            tx = read_pdf(filename)
+            file_content = read_pdf(file_path)
         elif file_extension == ".txt":
-            tx = read_txt(filename)
+            file_content = read_txt(file_path)
         elif file_extension == ".docx":
-            tx = read_docx(filename)
+            file_content = read_docx(file_path)
 
         t = PrettyTable(['Catalog', 'Value'])
-
-        doc = nlp_model(tx)
+        doc = nlp_model(file_content)
         for ent in doc.ents:
-            print(ent)
             t.add_row([str(ent.label_.upper()), str(ent.text)])
-        
-    return render_template('content.html', content=t) 
 
-def read_pdf(filename):
-        file = open(app.config['UPLOAD_FOLDER'] + filename, "rb").read()
-        doc = fitz.open("pdf", file)
+    return render_template('content.html', content=t)
 
-        text = ""
-        for page in doc:
-            text = text + str(page.get_text())
-
-        tx = " ".join(text.split('\n'))
-        return tx
-
-def read_txt(filename):
-        file = open(app.config['UPLOAD_FOLDER'] + filename).read()
-
-        tx = ''
-        for i in file:
-           tx += str(i)
-        return tx
-
-def read_docx(filename):
-    file = docx2txt.process(app.config['UPLOAD_FOLDER'] + filename)
-
-    tx = ''
-    for i in file:
-        tx += str(i)
-    return tx
-
-if __name__ == '__main__':  
+if __name__ == '__main__':
     app.run(host="0.0.0.0", port=5000, debug = True)
