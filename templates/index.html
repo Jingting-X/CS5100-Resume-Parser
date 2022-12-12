@@ -18,7 +18,7 @@
 
     <div class="row">
         <h1 id="forms">Resume Parser</h1>
-        <p>A simple resume parser used for extracting information from resumes</p>
+        <p>A simple resume parser used for extracting information from resume in pdf, docx or txt format</p>
     </div>
     <div class="row">
         <div class="col-lg-6">
@@ -54,12 +54,19 @@
             if (document.getElementById("file").files.length == 0) {
                 alert("Please choose a file");
                 return;
-            } else {
-                targetForm = document.getElementById("uploadForm");
-                targetForm.action = "/display";
-                targetForm.method = "POST";
-                targetForm.enctype = "multipart/form-data";
             }
+            const file = document.getElementById("file").files[0];
+            const file_types =[".txt",".pdf",".docx"];
+            const type = file.name.substring(file.name.indexOf("."));
+            if (file_types.indexOf(type) == -1){
+                alert("Please choose a file in right format");
+                return;
+            }
+
+            targetForm = document.getElementById("uploadForm");
+            targetForm.action = "/display";
+            targetForm.method = "POST";
+            targetForm.enctype = "multipart/form-data";
         }
 
         function successfulUpload() {
