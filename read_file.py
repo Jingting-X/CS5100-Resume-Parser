@@ -23,10 +23,8 @@ def read_txt(file_path):
 def read_docx(file_path):
     file = docx2txt.process(file_path)
 
-    tx = ''
-    for i in file:
-        tx += str(i)
-    return tx
+    text = "".join([s for s in file.splitlines(True) if s.strip("\r\n")])
+    return text
 
 
 
